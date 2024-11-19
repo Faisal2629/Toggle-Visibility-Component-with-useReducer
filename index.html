@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toggle Visibility with useReducer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f9;
+      }
+
+      .container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: #fff;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .message {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const { useReducer } = React;
+
+      // Initial state
+      const initialState = {
+        isVisible: false,
+      };
+
+      // Reducer function
+      const reducer = (state, action) => {
+        switch (action.type) {
+          case 'TOGGLE_VISIBILITY':
+            return { ...state, isVisible: !state.isVisible };
+          default:
+            throw new Error('Invalid action type');
+        }
+      };
+
+      function ToggleMessageComponent() {
+        const [state, dispatch] = useReducer(reducer, initialState);
+
+        return (
+          <div className="container">
+            <h1>Toggle Message</h1>
+            <button onClick={() => dispatch({ type: 'TOGGLE_VISIBILITY' })}>
+              Toggle Message
+            </button>
+            {state.isVisible && <div className="message">Hello, World!</div>}
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<ToggleMessageComponent />);
+    </script>
+  </body>
+</html>
